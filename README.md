@@ -35,7 +35,6 @@ The most prominent feature of this project is the construction of a complete dat
 * Added interactive filters (Slicers) based on "Loan Intent" (Education, Medical, etc.) to make the dashboard dynamic.
 
 **Dashboard Snapshot:**
-*(You can see the interactive Power BI dashboard preview below)*
 
 ![Power BI Dashboard](dashboard_screenshot.png)
 
