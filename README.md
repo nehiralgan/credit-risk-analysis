@@ -1,51 +1,54 @@
-# 🏦 Bireysel Kredi Risk ve Müşteri Segmentasyonu Analizi (End-to-End Data Analysis)
+# 🏦 Individual Credit Risk and Customer Segmentation Analysis (End-to-End Data Analysis)
 
-## 📌 Proje Özeti
-Bu proje, bir finans kuruluşunun (veya bankanın) kredi risk yönetimini optimize etmek amacıyla yapılmış **uçtan uca (end-to-end) bir veri analitiği** çalışmasıdır. Temel amaç, müşterilerin demografik ve finansal geçmişlerine bakarak **kredi batırma (default) riskini** tahmin etmek ve banka yöneticileri için veri odaklı karar almayı sağlayacak interaktif bir raporlama panosu sunmaktır.
+## 📌 Project Overview
 
-Projeyi öne çıkaran en önemli özellik; ham verinin Excel'den alınıp, Python ile temizlenmesi, SQLite ile ilişkisel veritabanına aktarılarak SQL ile sorgulanması ve son olarak Power BI ile görselleştirilerek eksiksiz bir veri ardışık düzeni (data pipeline) kurgulanmasıdır.
+This project is an **end-to-end data analytics** study conducted to optimize the credit risk management of a financial institution (or bank). The main objective is to predict the **credit default risk** by examining the demographic and financial backgrounds of customers, and to provide an interactive reporting dashboard that enables data-driven decision-making for bank executives.
 
-## 🛠️ Kullanılan Teknolojiler ve Araçlar
-* **Veri Tanıma & Profilleme:** Microsoft Excel (Veri Sözlüğü oluşturma, anomali tespiti)
-* **Veri Temizleme & EDA:** Python (Pandas, Matplotlib, Seaborn)
-* **Veritabanı Yönetimi & Sorgulama:** SQLite & SQL
-* **İş Zekası & Görselleştirme (BI):** Power BI (İnteraktif Yönetici Panosu)
+The most prominent feature of this project is the construction of a complete data pipeline: raw data was extracted from Excel, cleaned with Python, transferred to a relational database using SQLite, queried via SQL, and finally visualized with Power BI.
 
----
+## 🛠️ Technologies and Tools Used
 
-## 🚀 Proje Aşamaları (Workflow)
+* **Data Recognition & Profiling:** Microsoft Excel (Creating a Data Dictionary, anomaly detection)
+* **Data Cleaning & EDA:** Python (Pandas, Matplotlib, Seaborn)
+* **Database Management & Querying:** SQLite & SQL
+* **Business Intelligence & Visualization (BI):** Power BI (Interactive Executive Dashboard)
 
-### Faz 1: Veri Profilleme (Excel)
-* Kaggle'dan alınan ham `credit_risk_dataset.csv` dosyası incelendi.
-* Veri tiplerinin ve sütun anlamlarının yer aldığı bir **Veri Sözlüğü (Data Dictionary)** oluşturuldu.
-* Yaş sütunundaki 144 yaş ve çalışma süresindeki 123 yıl gibi veri giriş hataları (fat-finger errors) tespit edildi.
+## 🚀 Project Workflow
 
-### Faz 2: Veri Temizliği ve Keşifsel Analiz (Python)
-* **Outlier Handling:** Excel'de tespit edilen mantıksız yaş (>100) ve çalışma süreleri (>60) filtrelendi.
-* **Missing Value Imputation:** Finansal verilerde ortalamayı (mean) saptırmamak adına, faiz oranlarındaki (`loan_int_rate`) ve çalışma sürelerindeki boşluklar **ortanca (median)** değer ile dolduruldu.
-* **Encoding & Format Çözümleri:** Excel'in ham CSV'yi kaydederken yaşattığı "Encoding (UTF-8 / Latin-1)" sorunları ve faiz oranlarını otomatik tarihe (örn. Kas.14) çevirme problemleri (Data Corruption) tespit edilip Python seviyesinde ham veri korunarak çözüldü.
+### Phase 1: Data Profiling (Excel)
+* Examined the raw `credit_risk_dataset.csv` file obtained from Kaggle.
+* Created a **Data Dictionary** detailing data types and column meanings.
+* Identified data entry errors (fat-finger errors) such as 144 years of age and 123 years of employment length.
 
-### Faz 3: Risk Metriklerinin Hesaplanması (SQL)
-* Temizlenen veri bir SQLite veritabanına (`credit_risk.db`) aktarıldı.
-* İş problemini çözmek adına SQL sorguları yazılarak çeşitli demografik kırılımlarda batık kredi oranları (Default Rate) hesaplandı. (Örn: Ev sahipliği durumuna göre risk analizi).
+### Phase 2: Data Cleaning and Exploratory Data Analysis (Python)
+* **Outlier Handling:** Filtered out illogical age (>100) and employment length (>60) records identified in Excel.
+* **Missing Value Imputation:** To avoid skewing the mean in financial data, null values in interest rates (`loan_int_rate`) and employment lengths were filled with the **median** value.
+* **Encoding & Format Solutions:** Resolved "Encoding (UTF-8 / Latin-1)" issues and the automatic conversion of interest rates to dates (e.g., Nov.14) caused by Excel during CSV saves. These data corruption issues were fixed at the Python level by preserving the raw data.
 
-### Faz 4: Yönetici Panosu Tasarımı (Power BI)
-* Yöneticiler için "Toplam Müşteri, Ortalama Kredi Miktarı, Toplam Batık Kredi" gibi temel KPI kartları oluşturuldu.
-* Müşteri risk kümelenmesini (Clustering) görmek için Yaş/Gelir dağılım grafikleri tasarlandı.
-* "Kredi Amacı" (Eğitim, Sağlık vb.) bazında panoyu dinamikleştiren interaktif filtreler (Slicer) eklendi.
+### Phase 3: Calculation of Risk Metrics (SQL)
+* Transferred the cleaned data to an SQLite database (`credit_risk.db`).
+* Wrote SQL queries to solve the business problem, calculating default rates across various demographic breakdowns (e.g., risk analysis based on home ownership status).
 
----
+### Phase 4: Executive Dashboard Design (Power BI)
+* Created fundamental KPI cards for executives such as "Total Customers, Average Loan Amount, Total Defaulted Loans".
+* Designed Age/Income scatter plots to observe customer risk clustering.
+* Added interactive filters (Slicers) based on "Loan Intent" (Education, Medical, etc.) to make the dashboard dynamic.
 
-## 📊 Temel İş İçgörüleri (Business Insights)
-1. **Ev Sahipliği ve Risk İlişkisi:** SQL analizlerine ve Power BI görselleştirmelerine göre, kirada oturan (RENT) müşterilerin kredisini batırma olasılığı, kendi evi olanlara (OWN) veya ipotekli evi olanlara (MORTGAGE) göre istatistiksel olarak daha yüksektir. Banka, kiracılara kredi verirken skorlama kriterlerini sıkılaştırmalıdır.
-2. **Gelir Segmentasyonunda Yığılma:** Dağılım grafiği (Scatter Plot) analizinde, kredisini ödeyemeyen müşterilerin (Kırmızı Noktalar) çok büyük bir kısmının düşük-orta gelir seviyesine sıkıştığı, yüksek gelir gruplarında kredi miktarından bağımsız olarak default oranının dramatik şekilde düştüğü görülmüştür.
+**Dashboard Snapshot:**
+*(You can see the interactive Power BI dashboard preview below)*
 
----
+![Power BI Dashboard](dashboard_screenshot.png)
 
-## 💻 Projeyi Kendi Bilgisayarınızda Çalıştırmak İçin
-1. Repoyu klonlayın: `git clone https://github.com/KULLANICI_ADINIZ/credit-risk-analysis.git`
-2. Gerekli Python kütüphanelerini yükleyin: `pip install pandas matplotlib seaborn sqlite3`
-3. Veri temizleme adımı için `main.py` dosyasını çalıştırın.
-4. SQL analizleri ve veritabanı oluşturma için `sql_analizi.py` dosyasını çalıştırın.
-5. Sonuçları incelemek için `Dashboard.pbix` (varsa) dosyasını Power BI ile açın.
+## 📊 Key Business Insights
+
+1. **Home Ownership and Risk Relationship:** According to SQL analyses and Power BI visualizations, the probability of default for renting customers (RENT) is statistically higher compared to homeowners (OWN) or those with mortgages (MORTGAGE). The bank should tighten its scoring criteria when granting loans to renters.
+2. **Clustering in Income Segmentation:** Scatter Plot analysis reveals that the vast majority of defaulted customers (Red Dots) are clustered in the low-to-middle income level. In higher income groups, the default rate drops dramatically, regardless of the loan amount.
+
+## 💻 How to Run the Project Locally
+
+1. Clone the repository: `git clone https://github.com/YOUR_USERNAME/credit-risk-analysis.git`
+2. Install the required Python libraries: `pip install pandas matplotlib seaborn sqlite3`
+3. Run the `main.py` file for the data cleaning step.
+4. Run the `sql_analizi.py` file for SQL analytics and database creation.
+5. Open the `Dashboard.pbix` (if available) file with Power BI to review the results.
 
